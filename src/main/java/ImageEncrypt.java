@@ -17,15 +17,15 @@ public class ImageEncrypt {
         return new IvParameterSpec(ivBytes);
     }
 
-    private SecretKeySpec createKey(String keyText) {
-        byte[] keyBytes = Base64.getDecoder().decode(keyText);
+    private SecretKeySpec createKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(ImageEncrypt.KEY);
         return new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
     }
 
     private void ECB(File plaintext) {
         try{
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            SecretKey key = createKey(KEY);
+            SecretKey key = createKey();
             cipher.init(Cipher.ENCRYPT_MODE, key);
             File output = new File("encrypted_" + plaintext.getName());
 
