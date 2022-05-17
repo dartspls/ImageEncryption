@@ -75,4 +75,13 @@ public class ImageEncrypt {
         File plaintext = new File(filename);
         ECB(plaintext);
     }
+
+    public static void main(String[] args) {
+        if(args.length != 1) {
+            System.out.println("Usage: ImageEncrypt <path/filename>");
+            return;
+        }
+
+        new ImageEncrypt().run(args[0]);
+    }
 }
