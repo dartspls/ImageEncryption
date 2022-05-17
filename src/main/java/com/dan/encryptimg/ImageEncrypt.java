@@ -1,3 +1,4 @@
+package com.dan.encryptimg;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -6,6 +7,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+
+
 
 public class ImageEncrypt {
     private static final String KEY = "770A8A65DA156D24EE2A093277530142"; // From assignment PDF

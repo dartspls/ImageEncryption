@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="image_encryption:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/image_encryption_jar</output-path>
+    <root id="archive" name="image_encryption.jar">
+      <element id="module-output" name="image_encryption" />
+    </root>
+  </artifact>
+</component>
