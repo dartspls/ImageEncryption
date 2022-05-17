@@ -64,9 +64,15 @@ public class ImageEncrypt {
         }
     }
 
-    private void run(String filename, String algoMode) {
-        File plaintext = new File(filename);
+    private void CBC(File plaintext) {
+        System.err.println("Not implemented");
+    }
+    private void CFB(File plaintext) {
+        System.err.println("Not implemented");
+    }
 
-        int x = 5;
+    private void run(String filename) {
+        File plaintext = new File(filename);
+        ECB(plaintext);
     }
 }
