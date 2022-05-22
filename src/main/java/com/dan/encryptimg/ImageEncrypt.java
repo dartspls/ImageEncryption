@@ -2,10 +2,15 @@ package com.dan.encryptimg;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 
 
@@ -27,28 +32,31 @@ public class ImageEncrypt {
 
     private void ECB(File plaintext) {
         try{
+
+
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             SecretKey key = createKey();
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            File output = new File("encrypted_" + plaintext.getName());
+            File output = new File("ecb_encrypted_" + plaintext.getName());
 
             FileInputStream fis = new FileInputStream(plaintext);
             FileOutputStream fos = new FileOutputStream(output);
-            byte[] inBuffer = new byte[4096]; // byte buffer for input
+            byte[] plaintextData = fis.readAllBytes();
+            BmpImage image = new BmpImage(plaintextData);
             byte[] outBuffer;
-            int rc;
+            //int rc;
 
-            while ((rc = fis.read(inBuffer)) != -1) {
-                outBuffer = cipher.update(inBuffer, 0, rc);
-                if(outBuffer != null) {
-                    fos.write(outBuffer);
-                }
-            }
-            outBuffer = cipher.doFinal();
+            //while ((rc = fis.read(inBuffer)) != -1) {
+//                outBuffer = cipher.update(byteData, 0, byteData.length);
+//                if(outBuffer != null) {
+//                    fos.write(outBuffer);
+//                }
+            //}
+            outBuffer = cipher.doFinal(image.getImgData());
             if(outBuffer != null) {
                 fos.write(outBuffer);
             }
-
+            fos.flush();
             fos.close();
             fis.close();
 
