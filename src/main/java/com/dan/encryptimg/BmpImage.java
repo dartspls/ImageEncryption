@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class BmpImage {
     private final byte[] img;
-    private int sizeInBytes;
-    private int byteOffset;
+    private final int sizeInBytes;
+    private final int byteOffset;
 
     /**
      * Create a new BMP image object
@@ -18,6 +18,11 @@ public class BmpImage {
         sizeInBytes = getImgSize() - byteOffset;
     }
 
+    /**
+     * Reads image size from header
+     *
+     * @return size of images in bytes
+     */
     private int getImgSize() {
         int size = 0;
         for(int i = 2; i < 6; i ++) {
@@ -25,10 +30,14 @@ public class BmpImage {
             t <<= (i - 2) * 8;
             size |= t;
         }
-        System.err.println("size: " + size);
         return size;
     }
 
+    /**
+     * Reads the byte offset of the start of the image data in the bmp file
+     *
+     * @return byte index of the start of the image data
+     */
     private int getBmpOffset() {
         int offset = 0;
         for(int i = 10; i < 14; i ++) {
@@ -36,7 +45,6 @@ public class BmpImage {
             t <<= (i - 10) * 8;
             offset |= t;
         }
-        System.err.println("offset: " + offset);
         return offset;
     }
 
