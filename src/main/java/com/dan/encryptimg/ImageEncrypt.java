@@ -13,10 +13,10 @@ import java.util.Base64;
 
 public class ImageEncrypt {
     private static final String KEY = "770A8A65DA156D24EE2A093277530142"; // From assignment PDF
-    private static final String PADDING = "PKCS5Padding";
 
     /***
      * Create a 128 bit Initialisation Vector
+     * Source: https://www.baeldung.com/java-aes-encryption-decryption
      *
      * @return 128 bit initialisation vector
      */
