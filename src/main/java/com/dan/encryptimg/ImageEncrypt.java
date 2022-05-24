@@ -2,15 +2,10 @@ package com.dan.encryptimg;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Base64;
 
 
@@ -42,20 +37,13 @@ public class ImageEncrypt {
             FileInputStream fis = new FileInputStream(plaintext);
             FileOutputStream fos = new FileOutputStream(output);
             byte[] plaintextData = fis.readAllBytes();
-            BmpImage image = new BmpImage(plaintextData);
+            BmpImage image = new BmpImage(plaintextData); // create BMP object to help with getting image header and body
             byte[] outBuffer;
-            //int rc;
 
-            //while ((rc = fis.read(inBuffer)) != -1) {
-//                outBuffer = cipher.update(byteData, 0, byteData.length);
-//                if(outBuffer != null) {
-//                    fos.write(outBuffer);
-//                }
-            //}
-            outBuffer = cipher.doFinal(image.getImgData());
-            if(outBuffer != null) {
-                fos.write(outBuffer);
-            }
+            outBuffer = cipher.doFinal(image.getImgData()); // encrypt
+            fos.write(image.getImgHeader()); // write img header
+            fos.write(outBuffer); // write encrypted img data
+
             fos.flush();
             fos.close();
             fis.close();
