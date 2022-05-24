@@ -3,6 +3,7 @@ import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -25,14 +26,17 @@ public class ImageEncrypt {
         return new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
     }
 
-    private void ECB(File plaintext) {
+    private void Encrypt(File plaintext, String algorithm, String outputFilePrefix, boolean useIV) {
         try{
-
-
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance(algorithm);
             SecretKey key = createKey();
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            File output = new File("ecb_encrypted_" + plaintext.getName());
+            if(useIV) {
+                cipher.init(Cipher.ENCRYPT_MODE, key, getIV());
+            } else {
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+            }
+
+            File output = new File(outputFilePrefix + plaintext.getName());
 
             FileInputStream fis = new FileInputStream(plaintext);
             FileOutputStream fos = new FileOutputStream(output);
@@ -60,19 +64,16 @@ public class ImageEncrypt {
             System.err.println("No file found with name '" + plaintext.getName() + "'");
         } catch (IOException ioe) {
             System.err.println("IO Exception: \n" + ioe.getMessage());
+        } catch (InvalidAlgorithmParameterException e) {
+            System.err.println("Error using IV with unsupported algorithm.\n" + e.getMessage());
         }
-    }
-
-    private void CBC(File plaintext) {
-        System.err.println("Not implemented");
-    }
-    private void CFB(File plaintext) {
-        System.err.println("Not implemented");
     }
 
     private void run(String filename) {
         File plaintext = new File(filename);
-        ECB(plaintext);
+        Encrypt(plaintext, "AES/ECB/PKCS5Padding", "ecb_encrypted_", false);
+        Encrypt(plaintext, "AES/CBC/PKCS5Padding", "cbc_encrypted_", true);
+        Encrypt(plaintext, "AES/CFB/PKCS5Padding", "cfb_encrypted_", true);
     }
 
     public static void main(String[] args) {
