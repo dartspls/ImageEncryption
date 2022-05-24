@@ -2,6 +2,10 @@ package com.dan.encryptimg;
 
 import java.util.Arrays;
 
+/**
+ * BMP image helper class. Provides methods for retrieving the header and body of BMP images.
+ * @author Daniel Shepherd 1514996
+ */
 public class BmpImage {
     private final byte[] img;
     private final int sizeInBytes;
