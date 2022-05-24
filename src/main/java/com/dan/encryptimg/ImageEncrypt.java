@@ -81,7 +81,7 @@ public class ImageEncrypt {
         } catch (InvalidKeyException ik) {
             System.err.println("Invalid key provided");
         } catch (NoSuchPaddingException nsp) {
-            System.err.println("No padding algorithm matching '" + PADDING + "'");
+            System.err.println("No padding algorithm matching padding segment in '" + algorithm + "'");
         }  catch (BadPaddingException | IllegalBlockSizeException bpe) {
             System.err.println("Data not padded correctly");
         } catch (FileNotFoundException fnf) {
