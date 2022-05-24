@@ -19,6 +19,24 @@ public class BmpImage {
     }
 
     /**
+     * Get the BMP header information
+     *
+     * @return byte array of header data
+     */
+    public byte[] getImgHeader() {
+        return Arrays.copyOfRange(img, 0, byteOffset);
+    }
+
+    /**
+     * Get the pixel data for the image
+     *
+     * @return byte array of image data
+     */
+    public byte[] getImgData() {
+        return Arrays.copyOfRange(img, byteOffset, byteOffset + sizeInBytes);
+    }
+
+    /**
      * Reads image size from header
      *
      * @return size of images in bytes
@@ -46,14 +64,5 @@ public class BmpImage {
             offset |= t;
         }
         return offset;
-    }
-
-    /**
-     * Get the pixel data for the image
-     *
-     * @return byte array of image data
-     */
-    public byte[] getImgData() {
-        return Arrays.copyOfRange(img, byteOffset, byteOffset + sizeInBytes);
     }
 }
